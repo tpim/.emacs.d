@@ -70,7 +70,10 @@
   :diminish auto-fill-function 
   :diminish mail-abbrevs-mode 
   :diminish highlight-indentation-mode 
-  :diminish subword-mode)
+  :diminish subword-mode 
+  :diminish company-mode 
+  :diminish xah-fly-keys 
+  :diminish which-key-mode)
 
 ;;; Stolen From https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org
 (defmacro diminish-minor-mode (filename mode &optional abbrev) 
@@ -130,8 +133,10 @@
 
 
 ;; highlight current line
-(if (display-graphic-p)
+(global-hl-line-mode 1)
 
+;; config default frame style
+(if (display-graphic-p) 
     (setq initial-frame-alist '((background-color . "honeydew"))) 
   (setq initial-frame-alist '( (tool-bar-lines . 0))))
 
