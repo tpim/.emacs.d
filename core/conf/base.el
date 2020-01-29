@@ -86,7 +86,6 @@
 
 
 ;; Xah-fly-key
-
 (use-package 
   xah-fly-keys 
   :ensure t 
@@ -107,7 +106,7 @@
   ;; "norman"
   (xah-fly-keys 1))
 
-(define-key xah-fly-key-map (kbd "M-x") 'xah-fly-command-mode-activate)
+
 
 
 
@@ -153,26 +152,22 @@
   multiple-cursors)
 
 
-
-
-
-
-
-
-(global-set-key (kbd "c-s->") 'mc/mark-next-like-this)
-(global-set-key (kbd "c-s-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-s->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-s-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-S-c a") 'mc/mark-all-like-this)
 
 
 (defun my-xfk-addon-command() 
   "add/change keys for xah-fly-keys command mode keys" 
   (interactive) 
-  (define-key xah-fly-key-map (kbd "b") 'mc/edit-lines)
+  (define-key xah-fly-key-map (kbd "b") 'mc/edit-lines) 
+  (define-key xah-fly-key-map (kbd "M-x") 'counsel-M-x)
   ;; more here
   )
 (defun my-xfk-addon-insert() 
   "add/change keys for xah-fly-keys command mode keys" 
-  (interactive)
+  (interactive) 
+  (define-key xah-fly-key-map (kbd "M-x") 'xah-fly-command-mode-activate)
   ;; more here
   )
 
@@ -180,5 +175,34 @@
 (add-hook 'xah-fly-command-mode-activate-hook 'my-xfk-addon-command)
 (add-hook 'xah-fly-insert-mode-activate-hook 'my-xfk-addon-insert)
 
+
+;; Ivy/Counsel/Swiper
+(use-package 
+  ivy 
+  :diminish (ivy-mode . "") 
+  :init (ivy-mode 1) 
+  :config (setq ivy-use-virtual-buffers t) 
+  (setq ivy-height 20) 
+  (setq ivy-count-format "%d/%d "))
+
+
+;; Override the basic build-in Emacs commands
+(use-package 
+  counsel 
+  :bind*				; load when pressed
+  (("C-s"     . swiper) 
+   ("C-x C-f" . counsel-find-file) 
+   ("C-x C-r" . counsel-recentf)       ; search for recently edited
+   ("C-c g"   . counsel-git)	       ; search for files in git repo
+   ("C-c j"   . counsel-git-grep)      ; search for regexp in git repo
+   ("C-c /"   . counsel-ag)	       ; Use ag for regexp
+   ("C-x l"   . counsel-locate) 
+   ("C-x C-f" . counsel-find-file) 
+   ("<f1> f"  . counsel-describe-function) 
+   ("<f1> v"  . counsel-describe-variable) 
+   ("<f1> l"  . counsel-find-library) 
+   ("<f2> i"  . counsel-info-lookup-symbol) 
+   ("<f2> u"  . counsel-unicode-char) 
+   ("C-c C-r" . ivy-resume)))	    ; Resume last Ivy-based completion
 
 (provide 'base)
