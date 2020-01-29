@@ -161,7 +161,8 @@
   "add/change keys for xah-fly-keys command mode keys" 
   (interactive) 
   (define-key xah-fly-key-map (kbd "b") 'mc/edit-lines) 
-  (define-key xah-fly-key-map (kbd "M-x") 'counsel-M-x)
+  (define-key xah-fly-key-map (kbd "M-x") 'counsel-M-x) 
+  (define-key xah-fly-key-map (kbd "M-n") 'neotree-toggle)
   ;; more here
   )
 (defun my-xfk-addon-insert() 
@@ -173,6 +174,7 @@
 
 
 (add-hook 'xah-fly-command-mode-activate-hook 'my-xfk-addon-command)
+
 (add-hook 'xah-fly-insert-mode-activate-hook 'my-xfk-addon-insert)
 
 
@@ -204,5 +206,63 @@
    ("<f2> i"  . counsel-info-lookup-symbol) 
    ("<f2> u"  . counsel-unicode-char) 
    ("C-c C-r" . ivy-resume)))	    ; Resume last Ivy-based completion
+
+(use-package 
+  magit 
+  :ensure t)
+
+(use-package 
+  ag)
+
+
+
+(use-package 
+  projectile 
+  :ensure t 
+  :bind* (("M-s p" . counsel-projectile-switch-project)) 
+  :config
+  ;; Global configuration
+  (setq projectile-switch-project-action 'neotree-projectile-action projectile-enable-caching
+	t projectile-create-missing-test-files t projectile-switch-project-action
+	#'projectile-commander projectile-ignored-project-function 'file-remote-p)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  ;; Register custom PHP project type
+  (projectile-register-project-type 'php '("composer.json") 
+				    :src-dir "src" 
+				    :test "composer test" 
+				    :run "composer serve" 
+				    :test-suffix "Test" 
+				    :test-dir "tests"))
+(use-package 
+  counsel-projectile 
+  :ensure t)
+
+
+
+
+
+
+
+
+
+(use-package 
+  neotree 
+  :ensure t 
+  :config
+  ;; Every time when the neotree window is opened, let it find current file and jump to node.
+  (setq neo-smart-open t)
+  ;; Do not autorefresh directory to show current file
+  (setq neo-autorefresh nil))
+
+
+;; Company language package for PHP
+(use-package 
+  company-php 
+
+  :defer 
+  :after company)
+
+
+
 
 (provide 'base)
