@@ -149,4 +149,36 @@
 	    (setq which-key-compute-remaps t) ;Show correct descriptions for remapped keys
 	    (which-key-mode 1)))
 
+(use-package 
+  multiple-cursors)
+
+
+
+
+
+
+
+
+(global-set-key (kbd "c-s->") 'mc/mark-next-like-this)
+(global-set-key (kbd "c-s-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-S-c a") 'mc/mark-all-like-this)
+
+
+(defun my-xfk-addon-command() 
+  "add/change keys for xah-fly-keys command mode keys" 
+  (interactive) 
+  (define-key xah-fly-key-map (kbd "b") 'mc/edit-lines)
+  ;; more here
+  )
+(defun my-xfk-addon-insert() 
+  "add/change keys for xah-fly-keys command mode keys" 
+  (interactive)
+  ;; more here
+  )
+
+
+(add-hook 'xah-fly-command-mode-activate-hook 'my-xfk-addon-command)
+(add-hook 'xah-fly-insert-mode-activate-hook 'my-xfk-addon-insert)
+
+
 (provide 'base)
